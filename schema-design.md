@@ -40,6 +40,7 @@
 ## MongoDB
 
 ### Collection: prescriptions
+```json
 {
   "_id": "ObjectId('64abc123456')",
   "appointmentId": 51,
