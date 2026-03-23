@@ -1,53 +1,394 @@
-/* this is the style sheet file for index.htlm  */
+/* this is the style sheet file for index.html */
 
-/* 
-**Global Reset (`*`)**
+@import url('https://fonts.googleapis.com/css2?family=Alegreya:wght@700&family=Roboto:wght@400;500;700&display=swap');
 
-* Remove all default margin and padding.
-* Use `border-box` for sizing to include padding and border in element size.
+/* Global reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-**Base (`html, body`)**
+html,
+body {
+    height: 100%;
+    font-family: 'Roboto', sans-serif;
+    background-color: #f4f8f8;
+    color: #1f2a2a;
+}
 
-* Set height to 100% for full viewport layout.
-* Use the `'Roboto'` sans-serif font for modern, clean typography.
+body {
+    line-height: 1.5;
+}
 
-**Layout Wrapper (`.wrapper`)**
+img {
+    max-width: 100%;
+    display: block;
+}
 
-* Use a vertical flexbox layout.
-* Ensure the wrapper covers at least the full height of the screen (`min-height: 100vh`).
+a {
+    text-decoration: none;
+    color: inherit;
+}
 
-**Heading (`h2`)**
+ul {
+    list-style: none;
+}
 
-* Set a large font size (`48px`) for prominence.
-* Add a bottom margin of `50px` for spacing.
-* Use a dark teal color (`#003e3e`).
-* Make the font bold and use a blended font stack (`'Alegreya', 'Roboto', sans-serif`) for elegant styling.
+button,
+input,
+select,
+textarea {
+    font: inherit;
+}
 
-**Main Section (`.main-content`)**
+.container {
+    width: 100%;
+}
 
-* Allow the section to grow to fill space with `flex-grow: 1`.
-* Add `40px` of internal padding.
-* Center content both horizontally and vertically using `justify-content` and `align-items`.
-* Display items in a column direction.
-* Center all text.
-* Apply a full-screen background image with:
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
 
-  * `cover` size
-  * `center` positioning
-  * no repeat
-  * `fixed` attachment to keep image still during scroll
+/* Header */
+.header,
+#header {
+    width: 100%;
+}
 
-**Buttons (`button`)**
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 18px 40px;
+    background: rgba(255, 255, 255, 0.92);
+    border-bottom: 1px solid rgba(0, 62, 62, 0.08);
+    backdrop-filter: blur(8px);
+}
 
-* Style with a teal green background (`#015c5d`) and white text.
-* Remove borders and round the corners (`12px`).
-* Use `10px 20px` padding and set width to `200px`.
-* Add a top margin of `10px` for spacing.
-* Enable pointer cursor and readable font size (`16px`).
-* On hover, change background color to bold red (`#A62B1F`).
+.header .logo,
+.header-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 700;
+    color: #003e3e;
+}
 
-**Dashboard Buttons (`.dashboard-btn`)**
+.header nav,
+.navbar {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    flex-wrap: wrap;
+}
 
-* Use the same base green background (`#015c5d`) as the default button.
-* On hover, darken the background to deep teal (`#003e3e`) for visual feedback.
- */
+.header nav a,
+.navbar a {
+    color: #003e3e;
+    font-weight: 500;
+    transition: color 0.25s ease;
+}
+
+.header nav a:hover,
+.navbar a:hover {
+    color: #a62b1f;
+}
+
+/* Main content */
+.main-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 40px;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.75)),
+    url('../images/defineRole/index.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+h1,
+h2,
+h3 {
+    color: #003e3e;
+    font-family: 'Alegreya', 'Roboto', sans-serif;
+}
+
+h2 {
+    font-size: 48px;
+    font-weight: 700;
+    margin-bottom: 50px;
+}
+
+.role-selection,
+.role-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.role-buttons {
+    gap: 12px;
+}
+
+/* Buttons */
+button,
+.dashboard-btn,
+.role-buttons button {
+    width: 200px;
+    padding: 10px 20px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 12px;
+    background-color: #015c5d;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease;
+    box-shadow: 0 8px 20px rgba(1, 92, 93, 0.18);
+}
+
+button:hover,
+.dashboard-btn:hover,
+.role-buttons button:hover {
+    background-color: #a62b1f;
+    transform: translateY(-2px);
+}
+
+button:active,
+.dashboard-btn:active,
+.role-buttons button:active {
+    transform: translateY(0);
+}
+
+button:focus-visible,
+.dashboard-btn:focus-visible,
+.input-field:focus,
+.select-dropdown:focus,
+input:focus,
+select:focus,
+textarea:focus {
+    outline: 3px solid rgba(1, 92, 93, 0.2);
+    outline-offset: 2px;
+}
+
+.dashboard-btn {
+    background-color: #015c5d;
+}
+
+.dashboard-btn:hover {
+    background-color: #003e3e;
+}
+
+/* Inputs / forms */
+.input-field,
+.select-dropdown,
+input,
+select,
+textarea {
+    width: 100%;
+    max-width: 420px;
+    padding: 12px 14px;
+    border: 1px solid #c8d8d8;
+    border-radius: 10px;
+    background-color: #ffffff;
+    color: #1f2a2a;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.input-field:hover,
+.select-dropdown:hover,
+input:hover,
+select:hover,
+textarea:hover {
+    border-color: #015c5d;
+}
+
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    color: #003e3e;
+}
+
+.checkbox-group input[type='checkbox'] {
+    width: 18px;
+    height: 18px;
+    accent-color: #015c5d;
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 999;
+    padding: 24px;
+    background-color: rgba(0, 0, 0, 0.55);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal.show {
+    display: flex;
+}
+
+.modal-content {
+    position: relative;
+    width: 100%;
+    max-width: 500px;
+    padding: 30px 24px;
+    border-radius: 18px;
+    background: #ffffff;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+    text-align: left;
+    animation: modalFadeIn 0.25s ease;
+}
+
+#modal-body {
+    margin-top: 10px;
+}
+
+.close,
+.close-btn,
+#closeModal {
+    position: absolute;
+    top: 14px;
+    right: 16px;
+    border: none;
+    background: transparent;
+    width: auto;
+    margin-top: 0;
+    padding: 4px 8px;
+    color: #003e3e;
+    font-size: 28px;
+    line-height: 1;
+    border-radius: 8px;
+    box-shadow: none;
+    cursor: pointer;
+}
+
+.close:hover,
+.close-btn:hover,
+#closeModal:hover {
+    background-color: rgba(1, 92, 93, 0.08);
+    color: #a62b1f;
+    transform: none;
+}
+
+/* Footer */
+.footer,
+#footer {
+    width: 100%;
+}
+
+.footer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 24px 40px;
+    background-color: #003e3e;
+    color: #ffffff;
+}
+
+.footer-section {
+    flex: 1 1 220px;
+}
+
+.footer h3,
+.footer h4 {
+    color: #ffffff;
+    margin-bottom: 10px;
+}
+
+.footer a {
+    color: #d7f0f0;
+    transition: color 0.25s ease;
+}
+
+.footer a:hover {
+    color: #ffffff;
+}
+
+/* Utility styles */
+.hidden {
+    display: none !important;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.card {
+    background: rgba(255, 255, 255, 0.92);
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 12px 30px rgba(0, 62, 62, 0.08);
+}
+
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .header,
+    .footer {
+        padding: 20px;
+    }
+
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .main-content {
+        padding: 30px 20px;
+        background-attachment: scroll;
+    }
+
+    h2 {
+        font-size: 34px;
+        margin-bottom: 32px;
+    }
+
+    button,
+    .dashboard-btn,
+    .role-buttons button {
+        width: 100%;
+        max-width: 280px;
+    }
+
+    .modal-content {
+        padding: 24px 18px;
+    }
+}
+
+@media (max-width: 480px) {
+    h2 {
+        font-size: 28px;
+    }
+
+    .footer {
+        flex-direction: column;
+    }
+}
