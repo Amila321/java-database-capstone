@@ -1,72 +1,194 @@
-/*
-  This script handles the admin dashboard functionality for managing doctors:
-  - Loads all doctor cards
-  - Filters doctors by name, time, or specialty
-  - Adds a new doctor via modal form
+// adminDashboard.js
 
+import { openModal } from "./components/modals.js";
+import {
+  getDoctors,
+  filterDoctors,
+  saveDoctor,
+} from "./services/doctorServices.js";
+import { createDoctorCard } from "./components/doctorCard.js";
 
-  Attach a click listener to the "Add Doctor" button
-  When clicked, it opens a modal form using openModal('addDoctor')
+function getElement(id) {
+  return document.getElementById(id);
+}
 
+function getValue(id) {
+  const el = getElement(id);
+  return el ? el.value.trim() : "";
+}
 
-  When the DOM is fully loaded:
-    - Call loadDoctorCards() to fetch and display all doctors
+function getCheckedValues(selector) {
+  return Array.from(document.querySelectorAll(selector))
+    .filter((checkbox) => checkbox.checked)
+    .map((checkbox) => checkbox.value);
+}
 
+function closeAddDoctorModal() {
+  if (typeof window.closeModal === "function") {
+    window.closeModal();
+    return;
+  }
 
-  Function: loadDoctorCards
-  Purpose: Fetch all doctors and display them as cards
+  const modal = document.getElementById("modal");
+  if (modal) {
+    modal.classList.remove("show");
+    modal.style.display = "none";
+    modal.setAttribute("aria-hidden", "true");
+  }
 
-    Call getDoctors() from the service layer
-    Clear the current content area
-    For each doctor returned:
-    - Create a doctor card using createDoctorCard()
-    - Append it to the content div
+  const modalBody = document.getElementById("modal-body");
+  if (modalBody) {
+    modalBody.innerHTML = "";
+  }
+}
 
-    Handle any fetch errors by logging them
+function bindAddDoctorButton() {
+  const addDocBtn = document.getElementById("addDocBtn");
+  if (!addDocBtn) return;
 
+  if (addDocBtn.dataset.bound === "true") return;
 
-  Attach 'input' and 'change' event listeners to the search bar and filter dropdowns
-  On any input change, call filterDoctorsOnChange()
+  addDocBtn.addEventListener("click", () => {
+    openModal("addDoctor");
+  });
 
+  addDocBtn.dataset.bound = "true";
+}
 
-  Function: filterDoctorsOnChange
-  Purpose: Filter doctors based on name, available time, and specialty
+function renderDoctorCards(doctors) {
+  const contentDiv = document.getElementById("content");
+  if (!contentDiv) return;
 
-    Read values from the search bar and filters
-    Normalize empty values to null
-    Call filterDoctors(name, time, specialty) from the service
+  contentDiv.innerHTML = "";
 
-    If doctors are found:
-    - Render them using createDoctorCard()
-    If no doctors match the filter:
-    - Show a message: "No doctors found with the given filters."
+  if (!Array.isArray(doctors) || doctors.length === 0) {
+    contentDiv.innerHTML = `<p class="no-doctors-message">No doctors found with the given filters.</p>`;
+    return;
+  }
 
-    Catch and display any errors with an alert
+  doctors.forEach((doctor) => {
+    const card = createDoctorCard(doctor);
+    contentDiv.appendChild(card);
+  });
+}
 
+async function loadDoctorCards() {
+  const contentDiv = document.getElementById("content");
+  if (!contentDiv) return;
 
-  Function: renderDoctorCards
-  Purpose: A helper function to render a list of doctors passed to it
+  try {
+    const doctors = await getDoctors();
+    contentDiv.innerHTML = "";
+    renderDoctorCards(doctors);
+  } catch (error) {
+    console.error("Error loading doctor cards:", error);
+    contentDiv.innerHTML = `<p class="no-doctors-message">Unable to load doctors at the moment.</p>`;
+  }
+}
 
-    Clear the content area
-    Loop through the doctors and append each card to the content area
+async function filterDoctorsOnChange() {
+  const searchBar = document.getElementById("searchBar");
+  const filterTime = document.getElementById("filterTime");
+  const filterSpecialty = document.getElementById("filterSpecialty");
 
+  const name = searchBar && searchBar.value.trim() !== "" ? searchBar.value.trim() : null;
+  const time = filterTime && filterTime.value.trim() !== "" ? filterTime.value.trim() : null;
+  const specialty =
+    filterSpecialty && filterSpecialty.value.trim() !== ""
+      ? filterSpecialty.value.trim()
+      : null;
 
-  Function: adminAddDoctor
-  Purpose: Collect form data and add a new doctor to the system
+  try {
+    const doctors = await filterDoctors(name, time, specialty);
+    renderDoctorCards(doctors);
+  } catch (error) {
+    console.error("Error filtering doctors:", error);
+    alert("Something went wrong while filtering doctors.");
+  }
+}
 
-    Collect input values from the modal form
-    - Includes name, email, phone, password, specialty, and available times
+async function adminAddDoctor(event) {
+  if (event) event.preventDefault();
 
-    Retrieve the authentication token from localStorage
-    - If no token is found, show an alert and stop execution
+  const name = getValue("doctorName");
+  const email = getValue("doctorEmail");
+  const mobile = getValue("doctorMobile");
+  const password = getValue("doctorPassword");
+  const specialty = getValue("doctorSpecialty");
+  const availability = getCheckedValues('input[name="availability"]:checked');
 
-    Build a doctor object with the form values
+  const token = localStorage.getItem("token");
 
-    Call saveDoctor(doctor, token) from the service
+  if (!token) {
+    alert("Admin session expired. Please log in again.");
+    window.location.href = "/";
+    return;
+  }
 
-    If save is successful:
-    - Show a success message
-    - Close the modal and reload the page
+  if (!name || !email || !mobile || !password || !specialty) {
+    alert("Please fill in all required doctor fields.");
+    return;
+  }
 
-    If saving fails, show an error message
-*/
+  const doctor = {
+    name,
+    email,
+    mobile,
+    password,
+    specialization: specialty,
+    availability,
+  };
+
+  try {
+    const result = await saveDoctor(doctor, token);
+
+    if (result.success) {
+      alert(result.message || "Doctor added successfully.");
+      closeAddDoctorModal();
+      await loadDoctorCards();
+    } else {
+      alert(result.message || "Failed to add doctor.");
+    }
+  } catch (error) {
+    console.error("Error adding doctor:", error);
+    alert("Something went wrong while adding the doctor.");
+  }
+}
+
+function bindFilterEvents() {
+  const searchBar = document.getElementById("searchBar");
+  const filterTime = document.getElementById("filterTime");
+  const filterSpecialty = document.getElementById("filterSpecialty");
+
+  if (searchBar) {
+    searchBar.addEventListener("input", filterDoctorsOnChange);
+  }
+
+  if (filterTime) {
+    filterTime.addEventListener("change", filterDoctorsOnChange);
+  }
+
+  if (filterSpecialty) {
+    filterSpecialty.addEventListener("change", filterDoctorsOnChange);
+  }
+}
+
+window.adminAddDoctor = adminAddDoctor;
+window.loadDoctorCards = loadDoctorCards;
+window.filterDoctorsOnChange = filterDoctorsOnChange;
+window.renderDoctorCards = renderDoctorCards;
+
+document.addEventListener("DOMContentLoaded", async () => {
+  bindAddDoctorButton();
+  bindFilterEvents();
+  await loadDoctorCards();
+
+  const observer = new MutationObserver(() => {
+    bindAddDoctorButton();
+  });
+
+  observer.observe(document.body, {
+    childList: true,
+    subtree: true,
+  });
+});
