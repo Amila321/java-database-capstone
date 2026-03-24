@@ -10,7 +10,7 @@ import java.util.Map;
 
 @Controller
 public class DashboardController {
-    
+
     @Autowired
     private Service service;
 
