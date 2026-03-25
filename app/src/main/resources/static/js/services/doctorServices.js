@@ -123,6 +123,7 @@ export async function filterDoctors(name, time, specialty) {
         ? encodeURIComponent(specialty.trim())
         : "null";
 
+    console.log("FILTER URL:", `${DOCTOR_API}/filter/${safeName}/${safeTime}/${safeSpecialty}`);
     const response = await fetch(
       `${DOCTOR_API}/filter/${safeName}/${safeTime}/${safeSpecialty}`,
       {

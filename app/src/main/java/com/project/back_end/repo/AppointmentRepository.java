@@ -16,8 +16,8 @@ public interface AppointmentRepository extends JpaRepository<Appointment,Long> {
 
     @Query("""
             SELECT DISTINCT a
-            FROM appointments a
-            LEFT JOIN FETCH a.doctors d
+            FROM Appointment a
+            LEFT JOIN FETCH a.doctor d
             LEFT JOIN FETCH d.availableTimes
             WHERE d.id = :doctorId
             AND a.appointmentTime BETWEEN :start AND :end
@@ -30,10 +30,10 @@ public interface AppointmentRepository extends JpaRepository<Appointment,Long> {
 
     @Query("""
         SELECT DISTINCT a
-        FROM appointments a
-        LEFT JOIN FETCH a.doctors d
+        FROM Appointment a
+        LEFT JOIN FETCH a.doctor d
         LEFT JOIN FETCH d.availableTimes
-        LEFT JOIN FETCH a.patients p
+        LEFT JOIN FETCH a.patient p
         WHERE d.id = :doctorId
         AND LOWER(p.name) LIKE LOWER(CONCAT('%', :patientName, '%'))
         AND a.appointmentTime BETWEEN :start AND :end
@@ -54,9 +54,9 @@ public interface AppointmentRepository extends JpaRepository<Appointment,Long> {
     List<Appointment> findByPatient_IdAndStatusOrderByAppointmentTimeAsc(Long patientId, int status);
     @Query("""
         SELECT a
-        FROM appointments a
-        JOIN a.doctors d
-        JOIN a.patients p
+        FROM Appointment a
+        JOIN a.doctor d
+        JOIN a.patient p
         WHERE LOWER(d.name) LIKE LOWER(CONCAT('%', :doctorName, '%'))
         AND p.id = :patientId
         ORDER BY a.appointmentTime ASC
@@ -69,9 +69,9 @@ public interface AppointmentRepository extends JpaRepository<Appointment,Long> {
 
     @Query("""
         SELECT a
-        FROM appointments a
-        JOIN a.doctors d
-        JOIN a.patients p
+        FROM Appointment a
+        JOIN a.doctor d
+        JOIN a.patient p
         WHERE LOWER(d.name) LIKE LOWER(CONCAT('%', :doctorName, '%'))
         AND p.id = :patientId
         AND a.status = :status

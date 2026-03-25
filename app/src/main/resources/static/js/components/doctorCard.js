@@ -1,6 +1,6 @@
 // doctorCard.js
 
-import { showBookingOverlay } from "../services/loggedPatient.js";
+import { showBookingOverlay } from "../loggedPatient.js";
 import { deleteDoctor } from "../services/doctorServices.js";
 import { getPatientData } from "../services/patientServices.js";
 

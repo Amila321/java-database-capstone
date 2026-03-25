@@ -112,10 +112,10 @@ async function adminAddDoctor(event) {
 
   const name = getValue("doctorName");
   const email = getValue("doctorEmail");
-  const mobile = getValue("doctorMobile");
+  const phone = getValue("doctorPhone");
   const password = getValue("doctorPassword");
-  const specialty = getValue("doctorSpecialty");
-  const availability = getCheckedValues('input[name="availability"]:checked');
+  const specialty = getValue("specialization");
+  const availability = getCheckedValues('input[name="availability"]');
 
   const token = localStorage.getItem("token");
 
@@ -125,7 +125,7 @@ async function adminAddDoctor(event) {
     return;
   }
 
-  if (!name || !email || !mobile || !password || !specialty) {
+  if (!name || !email || !phone || !password || !specialty) {
     alert("Please fill in all required doctor fields.");
     return;
   }
@@ -133,10 +133,10 @@ async function adminAddDoctor(event) {
   const doctor = {
     name,
     email,
-    mobile,
+    phone,
     password,
-    specialization: specialty,
-    availability,
+    specialty,
+    availableTimes: availability,
   };
 
   try {
