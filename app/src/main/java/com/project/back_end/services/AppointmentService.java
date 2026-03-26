@@ -1,5 +1,6 @@
 package com.project.back_end.services;
 
+import com.project.back_end.DTO.AppointmentDTO;
 import com.project.back_end.models.Appointment;
 import com.project.back_end.models.Doctor;
 import com.project.back_end.models.Patient;
@@ -223,7 +224,11 @@ public class AppointmentService {
                         );
             }
 
-            response.put("appointments", appointments);
+            List<AppointmentDTO> appointmentDTOs = appointments.stream()
+                    .map(this::mapToDTO)
+                    .toList();
+
+            response.put("appointments", appointmentDTOs);
             return response;
 
         } catch (Exception e) {
@@ -252,5 +257,20 @@ public class AppointmentService {
             response.put("message", "Error updating appointment status.");
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
+    }
+
+    private AppointmentDTO mapToDTO(Appointment appointment) {
+        return new AppointmentDTO(
+                appointment.getId(),
+                appointment.getDoctor() != null ? appointment.getDoctor().getId() : null,
+                appointment.getDoctor() != null ? appointment.getDoctor().getName() : null,
+                appointment.getPatient() != null ? appointment.getPatient().getId() : null,
+                appointment.getPatient() != null ? appointment.getPatient().getName() : null,
+                appointment.getPatient() != null ? appointment.getPatient().getEmail() : null,
+                appointment.getPatient() != null ? appointment.getPatient().getPhone() : null,
+                appointment.getPatient() != null ? appointment.getPatient().getAddress() : null,
+                appointment.getAppointmentTime(),
+                appointment.getStatus()
+        );
     }
 }

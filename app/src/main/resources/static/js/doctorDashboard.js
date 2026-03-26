@@ -6,7 +6,11 @@ import { createPatientRow } from "./components/patientRows.js";
 const appointmentTableBody = document.getElementById("patientTableBody");
 
 function getTodayDate() {
-  return new Date().toISOString().split("T")[0];
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, "0");
+  const day = String(today.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
 }
 
 let selectedDate = getTodayDate();
@@ -37,14 +41,20 @@ async function loadAppointments() {
       token
     );
 
-    if (!appointments || appointments.length === 0) {
+    const appointmentList = Array.isArray(appointments)
+      ? appointments
+      : Array.isArray(appointments?.appointments)
+        ? appointments.appointments
+        : [];
+
+    if (appointmentList.length === 0) {
       appointmentTableBody.appendChild(
         createMessageRow("No Appointments found for today.")
       );
       return;
     }
 
-    appointments.forEach((appointment) => {
+    appointmentList.forEach((appointment) => {
       const patient = {
         id:
           appointment.patient?.id ||
@@ -70,6 +80,8 @@ async function loadAppointments() {
           appointment.email ||
           "N/A",
       };
+      console.log(patient);
+      console.log(appointment.patient.phone); // coś nie odczytuje telefonu, ani maila
 
       const appointmentId =
         appointment.id || appointment.appointmentId || "N/A";
