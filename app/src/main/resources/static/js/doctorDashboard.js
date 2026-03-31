@@ -71,17 +71,18 @@ async function loadAppointments() {
         phone:
           appointment.patient?.phone ||
           appointment.patient?.mobile ||
+          appointment.patientPhone ||
           appointment.phone ||
           appointment.mobile ||
           "N/A",
 
         email:
           appointment.patient?.email ||
+          appointment.patientEmail ||
           appointment.email ||
           "N/A",
       };
       console.log(patient);
-      console.log(appointment.patient.phone); // coś nie odczytuje telefonu, ani maila
 
       const appointmentId =
         appointment.id || appointment.appointmentId || "N/A";

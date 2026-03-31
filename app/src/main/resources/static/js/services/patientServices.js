@@ -110,15 +110,13 @@ export async function getPatientData(token) {
 */
 export async function getPatientAppointments(id, token, user) {
   try {
-    if (!id || !token || !user) {
-      console.error("Missing id, token, or user.");
+    if (!id || !token) {
+      console.error("Missing id or token.");
       return null;
     }
 
     const response = await fetch(
-      `${PATIENT_API}/appointments/${encodeURIComponent(user)}/${encodeURIComponent(
-        id
-      )}/${encodeURIComponent(token)}`,
+      `${PATIENT_API}/${encodeURIComponent(id)}/${encodeURIComponent(token)}`,
       {
         method: "GET",
         headers: {

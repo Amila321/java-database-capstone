@@ -29,6 +29,11 @@ export async function getPrescription(appointmentId, token) {
       }
     });
 
+    // If 404, it means no prescription exists yet - return null instead of throwing error
+    if (response.status === 404) {
+      return null;
+    }
+
     if (!response.ok) {
       const errorData = await response.json();
       console.error("Failed to fetch prescription:", errorData);

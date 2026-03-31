@@ -35,17 +35,18 @@ document.addEventListener('DOMContentLoaded', async () => {
       const response = await getPrescription(appointmentId, token);
       console.log("getPrescription :: ", response);
 
-      // Now, check if the prescription exists in the response and access it from the array
-      if (response.prescription && response.prescription.length > 0) {
+      // If prescription exists, pre-fill the form
+      if (response && response.prescription && response.prescription.length > 0) {
         const existingPrescription = response.prescription[0]; // Access first prescription object
-        patientNameInput.value = existingPrescription.patientName || YOU;
+        patientNameInput.value = existingPrescription.patientName || patientName;
         medicinesInput.value = existingPrescription.medication || "";
         dosageInput.value = existingPrescription.dosage || "";
         notesInput.value = existingPrescription.doctorNotes || "";
       }
+      // If no prescription exists (response is null), form stays empty - ready for new prescription
 
     } catch (error) {
-      console.warn("No existing prescription found or failed to load:", error);
+      console.error("Unexpected error loading prescription:", error);
     }
   }
   if (mode === 'view') {
