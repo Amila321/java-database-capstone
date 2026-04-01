@@ -132,11 +132,11 @@ function extractToken(data) {
 window.signupPatient = async function signupPatient(event) {
   if (event) event.preventDefault();
 
-  const name = getValue("patientName");
-  const email = getValue("patientEmail");
-  const password = getValue("patientPassword");
-  const phone = getValue("patientPhone");
-  const address = getValue("patientAddress");
+  const name = getValue("name");
+  const email = getValue("email");
+  const password = getValue("password");
+  const phone = getValue("phone");
+  const address = getValue("address");
 
   if (!name || !email || !password || !phone || !address) {
     alert("Please fill in all patient signup fields.");
@@ -170,13 +170,15 @@ window.signupPatient = async function signupPatient(event) {
 window.loginPatient = async function loginPatient(event) {
   if (event) event.preventDefault();
 
-  const email = getValue("loginEmail") || getValue("patientLoginEmail");
-  const password = getValue("loginPassword") || getValue("patientLoginPassword");
+  const email = getValue("email") || getValue("patientLoginEmail");
+  const password = getValue("password") || getValue("patientLoginPassword");
 
   if (!email || !password) {
     alert("Please enter email and password.");
     return;
   }
+
+  console.log("email:", email, "password:", password);
 
   const data = { email, password };
 

@@ -92,9 +92,8 @@ async function handleFilterChange() {
   const condition = filterValue === "allAppointments" ? null : filterValue || null;
 
   try {
-    const response = await filterAppointments(condition, name, token);
-    const appointments = response?.appointments || [];
-    filteredAppointments = appointments.filter(app => app.patientId === patientId);
+    const appointments = await filterAppointments(condition, name, token);
+    filteredAppointments = (appointments || []).filter(app => app.patientId === patientId);
 
     renderAppointments(filteredAppointments);
   } catch (error) {

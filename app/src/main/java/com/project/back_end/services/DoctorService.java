@@ -41,7 +41,13 @@ public class DoctorService {
         List<String> availableSlots = new ArrayList<>();
 
         if (doctor.getAvailableTimes() != null) {
-            availableSlots.addAll(doctor.getAvailableTimes());
+            // Extract only the start time from slots (handle both "HH:mm" and "HH:mm-HH:mm" formats)
+            for (String slot : doctor.getAvailableTimes()) {
+                if (slot != null && !slot.isBlank()) {
+                    String startTime = slot.contains("-") ? slot.split("-")[0].trim() : slot.trim();
+                    availableSlots.add(startTime);
+                }
+            }
         }
 
         LocalDate targetDate = (date != null) ? date : LocalDate.now();

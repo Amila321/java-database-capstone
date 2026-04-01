@@ -18,7 +18,7 @@ async function parseJsonSafe(response) {
 */
 export async function patientSignup(data) {
   try {
-    const response = await fetch(`${PATIENT_API}/signup`, {
+    const response = await fetch(`${PATIENT_API}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -169,7 +169,7 @@ export async function filterAppointments(condition, name, token) {
         : "null";
 
     const response = await fetch(
-      `${PATIENT_API}/appointments/filter/${safeCondition}/${safeName}/${safeToken}`,
+      `${PATIENT_API}/filter/${safeCondition}/${safeName}/${safeToken}`,
       {
         method: "GET",
         headers: {

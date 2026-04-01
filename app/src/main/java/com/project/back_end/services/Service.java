@@ -154,6 +154,11 @@ public class Service {
                 return response;
             }
 
+            if (appointment.getPatient() == null || appointment.getPatient().getId() == null) {
+                response.put("message", "Patient ID is required.");
+                return response;
+            }
+
             if (appointment.getAppointmentTime() == null) {
                 response.put("message", "Appointment time is required.");
                 return response;

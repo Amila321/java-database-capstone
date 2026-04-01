@@ -48,6 +48,21 @@ public class AppointmentService {
                 return 0;
             }
 
+            // Fetch full Patient and Doctor objects from database
+            if (appointment.getPatient() != null && appointment.getPatient().getId() != null) {
+                Optional<Patient> patient = patientRepository.findById(appointment.getPatient().getId());
+                if (patient.isPresent()) {
+                    appointment.setPatient(patient.get());
+                }
+            }
+
+            if (appointment.getDoctor() != null && appointment.getDoctor().getId() != null) {
+                Optional<Doctor> doctor = doctorRepository.findById(appointment.getDoctor().getId());
+                if (doctor.isPresent()) {
+                    appointment.setDoctor(doctor.get());
+                }
+            }
+
             appointmentRepository.save(appointment);
             return 1;
         } catch (Exception e) {
