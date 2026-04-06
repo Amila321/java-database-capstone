@@ -26,9 +26,9 @@ supports multiple user roles such as:
 Each role has its own permissions and functionalities, allowing users
 to:
 
--   Manage appointments\
--   Handle patient records\
--   Access dashboards\
+-   Manage appointments
+-   Handle patient records
+-   Access dashboards
 -   Work with prescriptions and schedules
 
 ------------------------------------------------------------------------
@@ -37,12 +37,12 @@ to:
 
 The application follows a **three-tier architecture**:
 
--   **Presentation Layer** -- Thymeleaf views + REST clients\
+-   **Presentation Layer** -- Thymeleaf views + REST clients
 -   **Application Layer** -- Spring Boot (controllers, services,
-    business logic)\
+    business logic)
 -   **Data Layer** -- MySQL + MongoDB
 
-➡️ Detailed architecture description is available in:\
+➡️ Detailed architecture description is available in:
 👉 `shema-architecture.md`
 
 ------------------------------------------------------------------------
@@ -52,10 +52,10 @@ The application follows a **three-tier architecture**:
 The system uses a **hybrid database approach**:
 
 -   **MySQL** → relational data (patients, doctors, appointments,
-    admins)\
+    admins)
 -   **MongoDB** → document-based data (prescriptions)
 
-➡️ Full database schema is available in:\
+➡️ Full database schema is available in:
 👉 `schema-design.md`
 
 ------------------------------------------------------------------------
@@ -64,7 +64,7 @@ The system uses a **hybrid database approach**:
 
 All implemented and planned features are tracked using GitHub issues.
 
-➡️ You can explore them here:\
+➡️ You can explore them here:
 👉 **Issues tab in this repository**
 
 ------------------------------------------------------------------------
@@ -73,10 +73,10 @@ All implemented and planned features are tracked using GitHub issues.
 
 The project includes preloaded sample data such as:
 
--   Doctors\
--   Patients\
--   Appointments\
--   Admin account\
+-   Doctors
+-   Patients
+-   Appointments
+-   Admin account
 -   Login credentials
 
 ➡️ Located in:\
@@ -117,9 +117,9 @@ in:
 
 The CI pipeline includes:
 
--   Backend compilation (Maven, Java 17)\
--   Java linting with Checkstyle\
--   Dockerfile linting (Hadolint)\
+-   Backend compilation (Maven, Java 17)
+-   Java linting with Checkstyle
+-   Dockerfile linting (Hadolint)
 -   Frontend linting (HTML, CSS, JS)
 
 ------------------------------------------------------------------------
@@ -129,12 +129,12 @@ The CI pipeline includes:
 This project was developed as part of the IBM Java Developer Capstone,
 which involved:
 
--   Requirements analysis\
--   System architecture design\
--   Database modeling\
--   Backend development (Spring Boot)\
--   Frontend integration\
--   Docker deployment\
+-   Requirements analysis
+-   System architecture design
+-   Database modeling
+-   Backend development (Spring Boot)
+-   Frontend integration
+-   Docker deployment
 -   CI/CD setup
 
 ------------------------------------------------------------------------
@@ -143,9 +143,9 @@ which involved:
 
 This project demonstrates:
 
--   Full-stack development with Java (Spring Boot)\
--   Clean architecture and separation of concerns\
--   Hybrid database design (SQL + NoSQL)\
--   REST API design and MVC integration\
--   Containerization with Docker\
+-   Full-stack development with Java (Spring Boot)
+-   Clean architecture and separation of concerns
+-   Hybrid database design (SQL + NoSQL)
+-   REST API design and MVC integration
+-   Containerization with Docker
 -   CI workflows with GitHub Actions
